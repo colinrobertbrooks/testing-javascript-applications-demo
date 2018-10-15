@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <%if (process.env.NODE_ENV !== 'development') { %>
+      <link rel="stylesheet" type="text/css" href='/stylesheets/manage_users.<%= version %>.css' />
+    <% } %>
+    <title>Manage Users</title>
+  </head>
+  <body>
+    <% include templates/noscript.ejs %>
+    <div id="navbar"><%- navbarHTML %></div>
+    <div id="root"></div>
+    <div id="footer"><%- footerHTML %></div>
+    <script>
+      window.navbarProps = <%- navbarProps %>;
+      window.footerProps = <%- footerProps %>;
+    </script>
+    <script src="/javascripts/manage_users.<%= version %>.js"></script>
+  </body>
+</html>

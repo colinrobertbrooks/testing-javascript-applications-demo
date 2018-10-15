@@ -1,0 +1,9 @@
+html {
+  overflow-y: scroll;
+}
+
+body {
+  min-width: 300px;
+  padding-top: 70px;
+  padding-bottom: 35px;
+}

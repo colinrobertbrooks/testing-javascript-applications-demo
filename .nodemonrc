@@ -1,0 +1,14 @@
+{
+  "watch": [
+    "app/controllers/**/*.js",
+    "app/dbs/**/*.js",
+    "app/helpers/authentication/**/*.js",
+    "app/middleware/**/*.js",
+    "app/models/**/*.js",
+    "app/router/**/*.js",
+    "bin/start",
+    "config/**/*.json",
+    "webpack.config/**/*.dev.js",
+    "app.js"
+  ]
+}

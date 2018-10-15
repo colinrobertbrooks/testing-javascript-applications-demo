@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <%if (process.env.NODE_ENV !== 'development') { %>
+      <link rel="stylesheet" type="text/css" href='/stylesheets/login.<%= version %>.css' />
+    <% } %>
+    <title>Log In</title>
+  </head>
+  <body>
+    <% include templates/noscript.ejs %>
+    <div id="navbar"><%- navbarHTML %></div>
+    <% include templates/flash.ejs %>
+    <div id="root"></div>
+    <div id="footer"><%- footerHTML %></div>
+    <script>
+      window.navbarProps = <%- navbarProps %>;
+      window.footerProps = <%- footerProps %>;
+    </script>
+    <script src="/javascripts/login.<%= version %>.js"></script>
+  </body>
+</html>
