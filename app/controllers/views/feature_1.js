@@ -1,17 +1,12 @@
-module.exports = (() => {
-  const get = (req, res) => {
-    if (req.isAuthenticated() && req.user.access.includes('Feature 1')) {
-      res.render('feature_1');
-    } else {
-      req.flash(
-        'error',
-        `You do not have permission to access the Feature 1 page.`
-      );
-      res.redirect('/');
-    }
-  };
+const withAuthorization = require('../../helpers/controllers/views/withAuthorization');
 
-  return {
-    get
-  };
-})();
+const accessName = 'Feature 1';
+const viewName = 'Feature 1';
+
+const get = (req, res) => {
+  res.render('feature_1');
+};
+
+module.exports = {
+  get: withAuthorization({ wrappedMethod: get, accessName, viewName })
+};

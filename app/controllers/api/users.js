@@ -1,20 +1,11 @@
 /* eslint-disable consistent-return */
 const { ValidationError, ValidationErrorItem } = require('sequelize');
 
-const { User, Access } = require('../../models');
+const { Access, User } = require('../../models');
 const passwordHelper = require('../../helpers/authentication/password');
+const withAuthorization = require('../../helpers/controllers/api/withAuthorization');
 
-const withAuth = wrapped => (req, res, next) => {
-  if (!req.isAuthenticated()) {
-    return res.sendStatus(401);
-  }
-
-  if (!req.user.access.includes('Admin')) {
-    return res.sendStatus(403);
-  }
-
-  return wrapped.call(this, req, res, next);
-};
+const accessName = 'Admin';
 
 const userExistsWithId = async id => {
   const user = await User.findById(id);
@@ -40,24 +31,23 @@ const validateAccess = async ids => {
   }
 };
 
-const validatePassword = password => {
-  if (!password || !/^\S*$/.test(password)) {
-    throw new ValidationError(null, [
-      new ValidationErrorItem(
-        'Validation on password failed',
-        'Validation error'
-      )
-    ]);
-  }
-};
+const validatePassword = async password =>
+  new Promise((resolve, reject) => {
+    if (password && /^\S*$/.test(password)) {
+      resolve();
+    } else {
+      reject(
+        new ValidationError(null, [
+          new ValidationErrorItem(
+            'Validation on password failed',
+            'Validation error'
+          )
+        ])
+      );
+    }
+  });
 
 const handleValidationErrors = (errors, res) => {
-  if (errors.every(e => e.type === 'Validation error')) {
-    return res.status(422).json({ errors: errors.map(error => error.message) });
-  }
-};
-
-const handleUniqueViolation = (errors, res) => {
   const uniqueViolation = errors.find(
     error => error.type === 'unique violation'
   );
@@ -67,135 +57,134 @@ const handleUniqueViolation = (errors, res) => {
       .status(409)
       .send(`User already exists with ${uniqueViolation.path}.`);
   }
+
+  return res.status(422).json({ errors: errors.map(error => error.message) });
 };
 
-module.exports = (() => {
-  const list = async (req, res) => {
-    try {
-      const users = await User.findAll({
-        attributes: ['id', 'username'],
-        include: [Access]
-      });
+const list = async (req, res) => {
+  try {
+    const users = await User.findAll({
+      attributes: ['id', 'username'],
+      include: [Access]
+    });
 
-      return res.status(200).send(users.map(user => user.mapAccessBy('id')));
-    } catch (err) {
-      return res.sendStatus(400);
+    return res.json(users.map(user => user.mapAccessBy('id')));
+  } catch (err) {
+    return res.sendStatus(400);
+  }
+};
+
+const create = async (req, res) => {
+  try {
+    const { access: accessIds, password, ...restAttributes } = req.body;
+
+    await validateAccess(accessIds);
+    await validatePassword(password);
+
+    const { hash, salt } = await passwordHelper.encrypt(password);
+    const newUser = await User.create({
+      ...restAttributes,
+      password: hash,
+      salt
+    });
+
+    await newUser.addAccesses(accessIds);
+
+    return res.sendStatus(201);
+  } catch (err) {
+    if (err instanceof ValidationError) {
+      return handleValidationErrors(err.errors, res);
     }
-  };
 
-  const create = async (req, res) => {
-    try {
-      const { access: accessIds, password, ...restAttributes } = req.body;
+    return res.sendStatus(400);
+  }
+};
 
-      await validateAccess(accessIds);
-      validatePassword(password);
+const update = async (req, res) => {
+  const { id: userId } = req.params;
 
-      const { hash, salt } = await passwordHelper.encrypt(password);
-      const newUser = await User.create({
+  try {
+    // 'id' is ignored because it's taken from 'req.params'
+    const { access: accessIds, password, id, ...restAttributes } = req.body;
+
+    await validateAccess(accessIds);
+
+    let newHash;
+    let newSalt;
+
+    if (password) {
+      await validatePassword(password);
+
+      ({ hash: newHash, salt: newSalt } = await passwordHelper.encrypt(
+        password
+      ));
+    }
+
+    const usersUpdated = await User.update(
+      {
         ...restAttributes,
-        password: hash,
-        salt
-      });
-
-      await newUser.addAccesses(accessIds);
-
-      return res.sendStatus(201);
-    } catch (err) {
-      if (err instanceof ValidationError) {
-        handleValidationErrors(err.errors, res);
-        handleUniqueViolation(err.errors, res);
+        ...(password && { password: newHash }),
+        ...(password && { salt: newSalt })
+      },
+      {
+        where: { id: userId },
+        limit: 1
       }
+    );
 
-      return res.sendStatus(400);
+    if (usersUpdated[0]) {
+      const updatedUser = await User.findById(userId);
+
+      await updatedUser.setAccesses(accessIds);
+
+      return res.sendStatus(200);
     }
-  };
 
-  const update = async (req, res) => {
-    const { id: userId } = req.params;
-
-    try {
-      const { access: accessIds, password, ...restAttributes } = req.body;
-
-      await validateAccess(accessIds);
-
-      let newHash;
-      let newSalt;
-
-      if (password) {
-        validatePassword(password);
-
-        ({ hash: newHash, salt: newSalt } = await passwordHelper.encrypt(
-          password
-        ));
-      }
-
-      const usersUpdated = await User.update(
-        {
-          ...restAttributes,
-          ...(password && { password: newHash }),
-          ...(password && { salt: newSalt })
-        },
-        {
-          where: { id: userId },
-          limit: 1
-        }
-      );
-
-      if (usersUpdated[0]) {
-        const updatedUser = await User.findById(userId);
-
-        await updatedUser.setAccesses(accessIds);
-
-        return res.sendStatus(200);
-      }
-
-      throw new Error(`Unable to update user ${userId}.`);
-    } catch (err) {
-      const userExists = await userExistsWithId(userId);
-
-      if (!userExists) {
-        return res.sendStatus(404);
-      }
-
-      if (err instanceof ValidationError) {
-        handleValidationErrors(err.errors, res);
-        handleUniqueViolation(err.errors, res);
-      }
-
-      return res.sendStatus(400);
+    throw new Error(`Unable to update user ${userId}.`);
+  } catch (err) {
+    if (err instanceof ValidationError) {
+      return handleValidationErrors(err.errors, res);
     }
-  };
 
-  const destroy = async (req, res) => {
-    const { id: userId } = req.params;
+    const userExists = await userExistsWithId(userId);
 
-    try {
-      const userDeleted = await User.destroy({
-        where: {
-          id: userId
-        }
-      });
-
-      if (userDeleted) {
-        return res.sendStatus(204);
-      }
-
-      throw new Error(`Unable to destroy user ${userId}.`);
-    } catch (err) {
-      const userExists = await userExistsWithId(userId);
-
-      if (!userExists) {
-        return res.sendStatus(404);
-      }
-
-      return res.sendStatus(400);
+    if (!userExists) {
+      return res.sendStatus(404);
     }
-  };
 
-  return {
-    list: withAuth(list),
-    create: withAuth(create),
-    update: withAuth(update),
-    destroy: withAuth(destroy)
-  };
-})();
+    return res.sendStatus(400);
+  }
+};
+
+const destroy = async (req, res) => {
+  const { id: userId } = req.params;
+
+  try {
+    const userDeleted = await User.destroy({
+      where: {
+        id: userId
+      }
+    });
+
+    if (userDeleted) {
+      return res.sendStatus(204);
+    }
+
+    throw new Error(`Unable to destroy user ${userId}.`);
+  } catch (err) {
+    const userExists = await userExistsWithId(userId);
+
+    if (!userExists) {
+      return res.sendStatus(404);
+    }
+
+    return res.sendStatus(400);
+  }
+};
+
+module.exports = {
+  list: withAuthorization({ wrappedMethod: list, accessName }),
+  create: withAuthorization({ wrappedMethod: create, accessName }),
+  update: withAuthorization({ wrappedMethod: update, accessName }),
+  destroy: withAuthorization({ wrappedMethod: destroy, accessName })
+};

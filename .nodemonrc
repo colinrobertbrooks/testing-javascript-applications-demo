@@ -3,6 +3,7 @@
     "app/controllers/**/*.js",
     "app/dbs/**/*.js",
     "app/helpers/authentication/**/*.js",
+    "app/helpers/controllers/**/*.js",
     "app/middleware/**/*.js",
     "app/models/**/*.js",
     "app/router/**/*.js",

@@ -1,7 +1,5 @@
-module.exports = (() => {
-  const get = (req, res) => res.render('index');
+const get = (req, res) => res.render('index');
 
-  return {
-    get
-  };
-})();
+module.exports = {
+  get
+};

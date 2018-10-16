@@ -1,17 +1,12 @@
-module.exports = (() => {
-  const get = (req, res) => {
-    if (req.isAuthenticated() && req.user.access.includes('Admin')) {
-      res.render('manage_users');
-    } else {
-      req.flash(
-        'error',
-        `You do not have permission to access the Manage Users page.`
-      );
-      res.redirect('/');
-    }
-  };
+const withAuthorization = require('../../helpers/controllers/views/withAuthorization');
 
-  return {
-    get
-  };
-})();
+const accessName = 'Admin';
+const viewName = 'Manage Users';
+
+const get = (req, res) => {
+  res.render('manage_users');
+};
+
+module.exports = {
+  get: withAuthorization({ wrappedMethod: get, accessName, viewName })
+};

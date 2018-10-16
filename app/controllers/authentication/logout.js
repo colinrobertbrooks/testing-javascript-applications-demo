@@ -1,15 +1,14 @@
-module.exports = (() => {
-  const get = (req, res) => {
-    if (req.user) {
-      req.logout();
-      req.flash('success', 'Logged out successfully.');
-    } else {
-      req.flash('error', 'No user to log out.');
-    }
-    res.redirect('/');
-  };
+const get = (req, res) => {
+  if (req.user) {
+    req.logout();
+    req.flash('success', 'Logged out successfully.');
+  } else {
+    req.flash('error', 'No user to log out.');
+  }
 
-  return {
-    get
-  };
-})();
+  res.redirect('/');
+};
+
+module.exports = {
+  get
+};
