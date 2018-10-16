@@ -5,17 +5,17 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "db:reset:dev": "rimraf database_development.db && set NODE_ENV=development&& sequelize db:migrate && sequelize db:seed --seed 20181002122449-access 20180809162107-admin-user",
-    "db:reset:test": "rimraf database_test.db && set NODE_ENV=test&& sequelize db:migrate && sequelize db:seed --seed 20181002122449-access 20180809162145-cypress-user",
-    "db:init": "set NODE_ENV=production&& sequelize db:migrate && sequelize db:seed --seed 20181002122449-access 20180809162107-admin-user",
+    "db:reset:dev": "cross-env-shell NODE_ENV=development \"rimraf database_development.db && sequelize db:migrate && sequelize db:seed --seed 20181002122449-access 20180809162107-admin-user\"",
+    "db:reset:test": "cross-env-shell NODE_ENV=test \"rimraf database_test.db && sequelize db:migrate && sequelize db:seed --seed 20181002122449-access 20180809162145-cypress-user\"",
+    "db:init": "cross-env-shell NODE_ENV=production \"sequelize db:migrate && sequelize db:seed --seed 20181002122449-access 20180809162107-admin-user\"",
     "clean": "rimraf public/* private/*",
     "test": "jest --config ./test/jest/config.js",
     "build:server": "webpack --config webpack.config/server.prod.js",
     "build:client": "webpack --config webpack.config/client.prod.js",
-    "build": "npm run clean && npm run build:server & npm run build:client",
-    "start:dev": "set NODE_ENV=development&& npm run clean && nodemon ./bin/start --config .nodemonrc",
-    "start:test": "set NODE_ENV=test&& set PORT=80&& node ./bin/start",
-    "start": "set NODE_ENV=production&& set PORT=80&& node ./bin/start"
+    "build": "npm-run-all clean build:server build:client",
+    "start:dev": "cross-env-shell NODE_ENV=development \"npm run clean && nodemon ./bin/start --config .nodemonrc\"",
+    "start:test": "cross-env NODE_ENV=test node ./bin/start",
+    "start": "cross-env NODE_ENV=production PORT=80 node ./bin/start"
   },
   "dependencies": {
     "@babel/core": "^7.0.0",
@@ -49,6 +49,7 @@
     "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.0",
     "bootstrap": "^4.1.3",
+    "cross-env": "^5.2.0",
     "css-loader": "^1.0.0",
     "formik": "^1.3.0",
     "ignore-loader": "^0.1.2",

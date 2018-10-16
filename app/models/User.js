@@ -1,31 +1,39 @@
 /* eslint-disable func-names */
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define('User', {
-    username: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        isAlphanumeric: true,
-        isLowercase: true
+  const User = sequelize.define(
+    'User',
+    {
+      username: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          isAlphanumeric: true,
+          isLowercase: true
+        }
+      },
+      password: {
+        type: DataTypes.TEXT,
+        allowNull: false
+      },
+      salt: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      createdAt: {
+        field: 'created_at',
+        type: DataTypes.DATE,
+        defaultValue: new Date()
+      },
+      updatedAt: {
+        field: 'updated_at',
+        type: DataTypes.DATE,
+        defaultValue: new Date()
       }
     },
-    password: {
-      type: DataTypes.TEXT,
-      allowNull: false
-    },
-    salt: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    createdAt: {
-      field: 'created_at',
-      type: DataTypes.DATE
-    },
-    updatedAt: {
-      field: 'updated_at',
-      type: DataTypes.DATE
+    {
+      tableName: 'users'
     }
-  });
+  );
 
   User.associate = function({ Access }) {
     User.belongsToMany(Access, { through: 'UsersAccess', onDelete: 'CASCADE' });
