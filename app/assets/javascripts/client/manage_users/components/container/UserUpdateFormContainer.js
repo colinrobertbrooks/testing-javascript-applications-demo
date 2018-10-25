@@ -12,10 +12,11 @@ import { alertType, userType } from '../../constants/types';
 
 const UserUpdateFormContainer = ({
   user,
+  cleanupForm,
+  // withAlert props...
   alert,
   setAlert,
-  clearAlert,
-  cleanupForm
+  clearAlert
 }) => (
   <Consumer>
     {({ updateUser }) => {

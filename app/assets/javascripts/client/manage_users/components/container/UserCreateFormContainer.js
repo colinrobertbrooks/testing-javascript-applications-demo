@@ -11,10 +11,11 @@ import { userCreateValidationSchema } from '../../constants/validations';
 import { alertType } from '../../constants/types';
 
 const UserCreateFormContainer = ({
+  cleanupForm,
+  // withAlert props...
   alert,
   setAlert,
-  clearAlert,
-  cleanupForm
+  clearAlert
 }) => (
   <Consumer>
     {({ createUser }) => (

@@ -6,7 +6,7 @@ import UserUpdateFormContainer from '../container/UserUpdateFormContainer';
 import { userType } from '../../constants/types';
 
 const UserUpdateModalToggle = ({ user }) => {
-  const { username } = user;
+  const { id: userId, username } = user;
 
   return (
     <VisibilityToggle>
@@ -18,10 +18,15 @@ const UserUpdateModalToggle = ({ user }) => {
             size="sm"
             title={`Update ${username}`}
             onClick={toggleVisibility}
+            data-testid={`update-user-${userId}`}
           >
             Update
           </Button>
-          <Modal isOpen={isOpen} backdrop="static">
+          <Modal
+            isOpen={isOpen}
+            backdrop="static"
+            data-testid="update-user-modal"
+          >
             <div className="modal-header">
               <h5 className="lead">Update User</h5>
             </div>

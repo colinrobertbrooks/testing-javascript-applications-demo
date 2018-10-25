@@ -4,7 +4,14 @@ import { ErrorMessage } from 'formik';
 
 const UserFormErrorMessage = ({ name }) => (
   <ErrorMessage name={name}>
-    {message => <small className="text-danger">{message}</small>}
+    {message => (
+      <small
+        className="text-danger"
+        data-testid={`user-form-error-message-${name}`}
+      >
+        {message}
+      </small>
+    )}
   </ErrorMessage>
 );
 

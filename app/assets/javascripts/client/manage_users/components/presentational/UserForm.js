@@ -10,7 +10,7 @@ const UserForm = ({
   accessOptions,
   method,
   handleCancel,
-  // ...formikProps
+  // formik props...
   values,
   setFieldValue,
   isSubmitting,
@@ -22,6 +22,7 @@ const UserForm = ({
       <Label for="username">Username</Label>
       <Input
         type="text"
+        id="username"
         name="username"
         value={values.username}
         onChange={handleChange}
@@ -34,6 +35,7 @@ const UserForm = ({
       <Input
         type="select"
         multiple
+        id="access"
         name="access"
         value={values.access}
         onChange={e =>
@@ -60,6 +62,7 @@ const UserForm = ({
       </Label>
       <Input
         type="text"
+        id="password"
         name="password"
         value={values.password}
         onChange={handleChange}

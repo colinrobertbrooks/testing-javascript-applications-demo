@@ -6,7 +6,7 @@ import VisibilityToggle from '../utility/VisibilityToggle';
 import { userType } from '../../constants/types';
 
 const UserDeleteModalToggle = ({ user, getAccessName, deleteUser }) => {
-  const { username, access } = user;
+  const { id: userId, username, access } = user;
   const userHasAdminAccess = !!access.find(id => getAccessName(id) === 'Admin');
 
   return (
@@ -24,15 +24,20 @@ const UserDeleteModalToggle = ({ user, getAccessName, deleteUser }) => {
             }
             disabled={userHasAdminAccess}
             onClick={toggleVisibility}
+            data-testid={`delete-user-${userId}`}
           >
             Delete
           </Button>
-          <Modal isOpen={isOpen} backdrop="static">
+          <Modal
+            isOpen={isOpen}
+            backdrop="static"
+            data-testid="delete-user-modal"
+          >
             <div className="modal-header">
               <h5 className="lead">Delete User</h5>
             </div>
             <ModalBody>
-              <p>
+              <p data-testid="delete-user-confirmation-text">
                 Are you sure you want to delete &quot;
                 {username}
                 &quot;?
@@ -46,7 +51,7 @@ const UserDeleteModalToggle = ({ user, getAccessName, deleteUser }) => {
                   setTimeout(() => deleteUser(user), 300);
                 }}
               >
-                Delete
+                Submit
               </Button>{' '}
               <Button
                 outline

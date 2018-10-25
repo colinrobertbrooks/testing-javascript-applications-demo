@@ -7,7 +7,7 @@ import UserDeleteModalToggleContainer from '../container/UserDeleteModalToggleCo
 import { userType } from '../../constants/types';
 
 const UsersTable = ({ users, getAccessName }) => (
-  <Table striped bordered responsive size="sm">
+  <Table striped bordered responsive size="sm" data-testid="users-table">
     <thead className="text-center">
       <tr>
         <th>Username</th>
@@ -20,10 +20,13 @@ const UsersTable = ({ users, getAccessName }) => (
         const { id: userId, username, access } = user;
 
         return (
-          <tr key={userId}>
-            <td>{username}</td>
+          <tr key={userId} data-testid={`user-${userId}-row`}>
+            <td data-testid={`user-${userId}-username`}>{username}</td>
             <td>
-              <ul className="list-unstyled">
+              <ul
+                className="list-unstyled"
+                data-testid={`user-${userId}-access`}
+              >
                 {access.map(id => (
                   <li key={id}>{getAccessName(id)}</li>
                 ))}

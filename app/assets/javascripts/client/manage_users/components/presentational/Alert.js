@@ -5,7 +5,12 @@ import { Alert as ReactstrapAlert } from 'reactstrap';
 import { colorType } from '../../constants/types';
 
 const Alert = ({ color, message, close }) => (
-  <ReactstrapAlert color={color} toggle={close} className="text-center">
+  <ReactstrapAlert
+    color={color}
+    toggle={close}
+    className="text-center"
+    data-testid={`alert-${color}`}
+  >
     {message}
   </ReactstrapAlert>
 );

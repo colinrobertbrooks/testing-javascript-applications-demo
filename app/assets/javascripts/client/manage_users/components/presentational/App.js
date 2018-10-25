@@ -11,18 +11,30 @@ const App = ({ isLoading, hasError, users, alert, clearAlert }) => (
   <Container>
     <Row>
       <Col sm={12}>
-        <h1 className="lead text-center">Manage Users</h1>
+        <h1 className="lead text-center" data-testid="app-name-text">
+          Manage Users
+        </h1>
         <hr />
       </Col>
       <Col sm={12}>
         {(() => {
           if (isLoading) {
-            return <p className="text-muted text-center">Loading...</p>;
+            return (
+              <p
+                className="text-muted text-center"
+                data-testid="is-loading-text"
+              >
+                Loading...
+              </p>
+            );
           }
 
           if (hasError) {
             return (
-              <p className="text-danger text-center">
+              <p
+                className="text-danger text-center"
+                data-testid="has-error-text"
+              >
                 Error! Refresh and try again.
               </p>
             );
@@ -42,7 +54,12 @@ const App = ({ isLoading, hasError, users, alert, clearAlert }) => (
                 {users && users.length > 0 ? (
                   <UsersTableContainer />
                 ) : (
-                  <p className="text-muted text-center">No users.</p>
+                  <p
+                    className="text-muted text-center"
+                    data-testid="no-users-text"
+                  >
+                    No users.
+                  </p>
                 )}
               </Col>
             </Row>

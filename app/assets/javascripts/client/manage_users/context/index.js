@@ -163,4 +163,4 @@ Provider.propTypes = {
 
 const { Consumer } = Context;
 
-export { Provider, Consumer };
+export { Context, Provider, Consumer };

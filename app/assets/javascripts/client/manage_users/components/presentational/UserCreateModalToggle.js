@@ -14,10 +14,15 @@ const UserCreateModalToggle = () => (
           size="sm"
           title="Create a new user"
           onClick={toggleVisibility}
+          data-testid="create-user-button"
         >
           Create
         </Button>
-        <Modal isOpen={isOpen} backdrop="static">
+        <Modal
+          isOpen={isOpen}
+          backdrop="static"
+          data-testid="create-user-modal"
+        >
           <div className="modal-header">
             <h5 className="lead">Create User</h5>
           </div>
