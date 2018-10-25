@@ -2,3 +2,4 @@
 node_modules
 private
 public
+test/jest/coverage
