@@ -7,19 +7,19 @@ const password = 'password';
 module.exports = {
   up: async () => {
     const { hash, salt } = await passwordHelper.encrypt(password);
-    const adminUser = await User.create({
+    const cypressUser = await User.create({
       username,
       password: hash,
       salt
     });
 
-    const adminAccess = await Access.findOne({
-      where: {
-        name: 'Admin'
-      }
-    });
+    const allAccessIds = await Access.findAll({
+      attributes: ['id']
+    }).map(({ dataValues }) => dataValues.id)
 
-    await adminUser.addAccess(adminAccess.id);
+
+
+    await cypressUser.addAccess(allAccessIds);
   },
 
   down: () =>

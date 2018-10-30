@@ -1,0 +1,6 @@
+{
+  "username": "newuser",
+  "password": "password",
+  "access": ["Feature 1"],
+  "updatedAccess": ["Feature 1", "Feature 2"]
+}

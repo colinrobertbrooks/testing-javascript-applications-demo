@@ -7,7 +7,9 @@ const App = () => (
   <Container>
     <Row>
       <Col sm={12}>
-        <h1 className="lead text-center">Log In</h1>
+        <h1 className="lead text-center" data-testid="view-name">
+          Log In
+        </h1>
         <hr />
       </Col>
       <Col sm={12} md={{ size: 6, offset: 3 }}>

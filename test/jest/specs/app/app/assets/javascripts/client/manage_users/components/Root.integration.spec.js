@@ -118,9 +118,7 @@ async function renderRoot({
   };
 
   // assert shared initial expectations
-  expect(rtlUtils.getByTestId('app-name-text')).toHaveTextContent(
-    'Manage Users'
-  );
+  expect(rtlUtils.getByTestId('view-name')).toHaveTextContent('Manage Users');
   expect(rtlUtils.getByTestId('is-loading-text')).toHaveTextContent(
     'Loading...'
   );

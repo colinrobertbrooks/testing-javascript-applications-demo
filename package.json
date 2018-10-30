@@ -16,7 +16,7 @@
     "cy:run": "cypress run",
     "cy:open": "cypress open",
     "test:e2e": "npm-run-all --serial db:reset:test build:test --parallel --race start:test cy:run",
-    "test:e2e:interactive": "npm-run-all --serial db:reset:test build:test --parallel start:test cy:open",
+    "test:e2e:interactive": "npm-run-all --serial db:reset:test build:test --parallel --race start:test cy:open",
     "build:server": "webpack --config webpack.config/server.prod.js",
     "build:client": "webpack --config webpack.config/client.prod.js",
     "build:test": "npm-run-all clean build:server build:client",

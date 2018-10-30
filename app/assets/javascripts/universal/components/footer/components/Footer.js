@@ -9,9 +9,9 @@ const Footer = ({ user }) => {
     const { username } = user;
 
     return (
-      <footer>
+      <footer data-testid="footer">
         <div className="footer-username">
-          Logged in as <strong>{username}</strong>
+          Logged in as <strong data-testid="footer-username">{username}</strong>
         </div>
       </footer>
     );

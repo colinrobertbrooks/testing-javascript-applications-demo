@@ -11,7 +11,7 @@ const App = ({ isLoading, hasError, users, alert, clearAlert }) => (
   <Container>
     <Row>
       <Col sm={12}>
-        <h1 className="lead text-center" data-testid="app-name-text">
+        <h1 className="lead text-center" data-testid="view-name">
           Manage Users
         </h1>
         <hr />
