@@ -3,7 +3,7 @@
   "description": "Demo of testing JavaScript applications",
   "author": "colinrcummings@gmail.com",
   "version": "1.0.0",
-  "private": true,
+  "license": "MIT",
   "scripts": {
     "db:reset:dev": "cross-env-shell NODE_ENV=development \"rimraf database_development.db && sequelize db:migrate && sequelize db:seed --seed 20181002122449-access 20180809162107-admin-user\"",
     "db:reset:test": "cross-env-shell NODE_ENV=test \"rimraf database_test.db && sequelize db:migrate && sequelize db:seed --seed 20181002122449-access 20180809162145-cypress-user\"",
