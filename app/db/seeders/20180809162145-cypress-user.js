@@ -15,9 +15,7 @@ module.exports = {
 
     const allAccessIds = await Access.findAll({
       attributes: ['id']
-    }).map(({ dataValues }) => dataValues.id)
-
-
+    }).map(({ dataValues }) => dataValues.id);
 
     await cypressUser.addAccess(allAccessIds);
   },
