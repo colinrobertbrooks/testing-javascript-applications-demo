@@ -1,5 +1,6 @@
 /* eslint-disable import/order */
 const { setup } = require('controller-test-helpers');
+
 const { passport } = setup();
 
 const loginController = require('app/controllers/authentication/login')(
