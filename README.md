@@ -59,15 +59,17 @@ Visit [localhost:80](http://localhost:80/); login with username "admin" and pass
 
 ## Running tests
 
+_Scripts included in the `precommit` and `validate` scripts are indicated below._
+
 ### Static Analysis
 
-Run [eslint](https://eslint.org/) against the codebase for a list of exceptions (staged files are automatically checked in a pre-commit hook):
+Run [eslint](https://eslint.org/) against the codebase for a list of exceptions (staged files are checked in the `precommit` script; all files are checked in the `validate` script):
 
 ```
 npm run lint
 ```
 
-Run [prettier](https://prettier.io/) against the codebase for a list of exceptions (stage files are automatically checked in a pre-commit hook):
+Run [prettier](https://prettier.io/) against the codebase for a list of exceptions (staged files are checked in the `precommit` script; all files are checked in the `validate` script):
 
 ```
 npm run format:check
@@ -81,7 +83,7 @@ npm run format:fix
 
 ### Unit & Integration
 
-Run [jest](https://jestjs.io/) tests (run automatically in a pre-commit hook):
+Run [jest](https://jestjs.io/) tests (included in the `validate` script):
 
 ```
 npm run test
@@ -93,7 +95,7 @@ Run jest tests in watch mode:
 npm run test:watch
 ```
 
-Run jest tests and generate code coverage via [istanbul](https://istanbul.js.org/) (add `:open` to open the LCOV report):
+Run jest tests and generate code coverage via [istanbul](https://istanbul.js.org/) (included in the `precommit` script; add `:open` to open the LCOV report):
 
 ```
 npm run coverage
@@ -101,7 +103,7 @@ npm run coverage
 
 ### End-to-end
 
-Run [cypress](https://www.cypress.io/) tests:
+Run [cypress](https://www.cypress.io/) tests (included in the `validate` scripts):
 
 ```
 npm run test:e2e

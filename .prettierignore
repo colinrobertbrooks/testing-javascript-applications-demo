@@ -1,0 +1,5 @@
+private
+public
+test/jest/coverage
+test/cypress/screenshots
+test/cypress/videos

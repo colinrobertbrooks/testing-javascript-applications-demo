@@ -13,6 +13,7 @@
     "prettier": "prettier \"**/*.+(js|json|css)\"",
     "format:check": "npm run prettier -- --list-different",
     "format:fix": "npm run prettier -- --write",
+    "lint-and-format-check-staged": "lint-staged",
     "test": "cross-env-shell NODE_PATH=./ \"jest --config ./test/jest/config.js\"",
     "test:watch": "npm run test -- --watch --verbose false",
     "coverage": "npm run test -- --coverage",
@@ -21,16 +22,16 @@
     "cy:open": "cypress open",
     "test:e2e": "npm-run-all --serial db:reset:test build:test --parallel --race start:test --silent cy:run",
     "test:e2e:interactive": "npm-run-all --serial db:reset:test build:test --parallel --race start:test  --silent cy:open",
-    "validate": "npm-run-all coverage test:e2e",
-    "setup": "npm install && npm run validate",
-    "precommit": "lint-staged && npm run test",
+    "precommit": "npm-run-all lint-and-format-check-staged coverage",
+    "validate": "npm-run-all lint format:check test test:e2e",
     "build:server": "webpack --config webpack.config/server.prod.js",
     "build:client": "webpack --config webpack.config/client.prod.js",
     "build:test": "npm-run-all clean build:server build:client",
     "build": "cross-env-shell NODE_ENV=production \"npm-run-all clean build:server build:client\"",
     "start:dev": "cross-env-shell NODE_ENV=development \"npm run clean && nodemon ./bin/start --config .nodemonrc\"",
     "start:test": "cross-env NODE_ENV=test node ./bin/start",
-    "start": "cross-env NODE_ENV=production PORT=80 node ./bin/start"
+    "start": "cross-env NODE_ENV=production PORT=80 node ./bin/start",
+    "setup": "npm install && npm run validate"
   },
   "dependencies": {
     "@babel/core": "^7.0.0",
