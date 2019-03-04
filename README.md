@@ -83,7 +83,7 @@ npm run format:fix
 
 ### Unit & Integration
 
-Run [jest](https://jestjs.io/) tests (included in the `validate` script):
+Run [jest](https://jestjs.io/) tests (included in the `precommit` and `validate` scripts):
 
 ```
 npm run test
@@ -95,7 +95,7 @@ Run jest tests in watch mode:
 npm run test:watch
 ```
 
-Run jest tests and generate code coverage via [istanbul](https://istanbul.js.org/) (included in the `precommit` script; add `:open` to open the LCOV report):
+Run jest tests and generate code coverage via [istanbul](https://istanbul.js.org/) (add `:open` to open the LCOV report):
 
 ```
 npm run coverage

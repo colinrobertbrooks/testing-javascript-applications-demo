@@ -1,6 +1,6 @@
 {
   "linters": {
-     "*.js": ["eslint"],
+     "**/*.js": ["eslint"],
      "**/*.+(js|json|css)": ["prettier --list-different"]
   }
 }
