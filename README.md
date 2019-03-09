@@ -103,7 +103,7 @@ npm run coverage
 
 ### End-to-end
 
-Run [cypress](https://www.cypress.io/) tests (included in the `validate` scripts):
+Run [cypress](https://www.cypress.io/) tests in headless mode (included in the `validate` scripts):
 
 ```
 npm run test:e2e
