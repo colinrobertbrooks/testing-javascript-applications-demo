@@ -1,6 +1,6 @@
 # Testing Javascript Applications Demo
 
-A demo app with static analysis and unit/integration/end-to-end tests.
+A demo app with static analysis and unit/integration/end-to-end tests. Read more about it [here](https://colinrcummings.github.io/blog/testing-javascript-applications/).
 
 ## System Requirements
 
