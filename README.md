@@ -2,6 +2,9 @@
 
 A demo app with static analysis and unit/integration/end-to-end tests. Read more about it [here](https://colinrcummings.github.io/blog/testing-javascript-applications/).
 
+[![Build Status](https://travis-ci.com/colinrcummings/testing-javascript-applications-demo.svg?branch=master)](https://travis-ci.com/colinrcummings/testing-javascript-applications-demo)
+[![codecov](https://codecov.io/gh/colinrcummings/testing-javascript-applications-demo/branch/master/graph/badge.svg)](https://codecov.io/gh/colinrcummings/testing-javascript-applications-demo)
+
 ## System Requirements
 
 - [git](https://git-scm.com/) v2.14.1 or greater
