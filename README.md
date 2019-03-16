@@ -2,6 +2,9 @@
 
 A demo app with static analysis and unit/integration/end-to-end tests. Read more about it [here](https://colinrcummings.github.io/blog/testing-javascript-applications/).
 
+[![Build Status](https://travis-ci.com/colinrcummings/testing-javascript-applications-demo.svg?branch=master)](https://travis-ci.com/colinrcummings/testing-javascript-applications-demo)
+[![Codecov Coverage](https://img.shields.io/codecov/c/github/colinrcummings/testing-javascript-applications-demo.svg?style=flat-square)](https://codecov.io/github/colinrcummings/testing-javascript-applications-demo/)
+
 ## System Requirements
 
 - [git](https://git-scm.com/) v2.14.1 or greater
@@ -83,7 +86,7 @@ npm run format:fix
 
 ### Unit & Integration
 
-Run [jest](https://jestjs.io/) tests (included in the `precommit` and `validate` scripts):
+Run [jest](https://jestjs.io/) tests (included in the `precommit` script):
 
 ```
 npm run test
@@ -95,7 +98,7 @@ Run jest tests in watch mode:
 npm run test:watch
 ```
 
-Run jest tests and generate code coverage via [istanbul](https://istanbul.js.org/) (add `:open` to open the LCOV report):
+Run jest tests and generate code coverage via [istanbul](https://istanbul.js.org/) (included in the `validate` script):
 
 ```
 npm run coverage

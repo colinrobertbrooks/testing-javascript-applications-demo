@@ -22,7 +22,7 @@
     "test:e2e": "npm-run-all --serial db:reset:test build:test --parallel --race start:test --silent cy:run",
     "test:e2e:interactive": "npm-run-all --serial db:reset:test build:test --parallel --race start:test  --silent cy:open",
     "precommit": "lint-staged && npm run test",
-    "validate": "npm-run-all lint format:check test test:e2e",
+    "validate": "npm-run-all lint format:check coverage test:e2e",
     "build:server": "webpack --config webpack.config/server.prod.js",
     "build:client": "webpack --config webpack.config/client.prod.js",
     "build:test": "npm-run-all clean build:server build:client",
